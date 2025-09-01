@@ -1,0 +1,8 @@
+.env
+Dataset
+Predictions
+test_input
+test_output
+Curvas.tar.gz
+__pycache__
+resources/Model

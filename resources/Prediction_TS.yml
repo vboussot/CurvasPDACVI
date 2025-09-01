@@ -1,0 +1,103 @@
+Predictor:
+  Model:
+    classpath: Model:Unet_TS
+    Unet_TS:
+      outputs_criterions: None
+      pretrained: false
+      channels:
+      - 1
+      - 32
+      - 64
+      - 128
+      - 256
+      - 320
+      - 320
+      nb_class: 25
+      mr: false
+      lung: false
+      Patch: None
+      dim: 3
+  Dataset:
+    groups_src:
+      CT:
+        groups_dest:
+          CT:
+            transforms:
+              TensorCast:
+                dtype: float32
+                inverse: true
+              ResampleToResolution:
+                spacing:
+                - 1.5
+                - 1.5
+                - 1.5
+                inverse: true
+              Canonical:
+                inverse: true
+              Clip:
+                min_value: -1024
+                max_value: 276
+                save_clip_min: false
+                save_clip_max: false
+                mask: None
+              Standardize:
+                lazy: false
+                mean: -370.00039267657144
+                std: 436.5998675471528
+                mask: None
+                inverse: true
+            patch_transforms: None
+            is_input: true
+          MASK:
+            transforms:
+              ResampleToResolution:
+                spacing:
+                - 1.5
+                - 1.5
+                - 1.5
+                inverse: true
+              Canonical:
+                inverse: true
+            patch_transforms: None
+            is_input: false
+    augmentations: None
+    Patch:
+      patch_size:
+      - 128
+      - 256
+      - 256
+      overlap: 64
+      mask: None
+      pad_value: 0
+      extend_slice: 0
+    subset: None
+    filter: None
+    dataset_filenames:
+    - ./Dataset/:mha
+    use_cache: false
+    batch_size: 1
+  outputs_dataset:
+    Model:
+      OutputDataset:
+        name_class: OutSameAsGroupDataset
+        before_reduction_transforms:
+          TensorCast:
+            dtype: uint8
+            inverse: true
+          Transform:KeepLargestComponent:
+            target_label: 7
+        after_reduction_transforms: None
+        final_transforms: None
+        dataset_filename: Dataset:mha
+        group: MASK
+        same_as_group: CT:MASK
+        patch_combine: None
+        inverse_transform: true
+        reduction: Mean
+  train_name: Curvas
+  manual_seed: 32
+  gpu_checkpoints: None
+  images_log: None
+  combine: Mean
+  autocast: true
+  data_log: None

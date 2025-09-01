@@ -1,0 +1,82 @@
+Predictor:
+  Model:
+    classpath: Model:ResidualEncoderUNet
+    ResidualEncoderUNet:
+      outputs_criterions: None
+      Patch: None
+      dim: 3
+  Dataset:
+    groups_src:
+      CT:
+        groups_dest:
+          CT:
+            transforms:
+              TensorCast:
+                dtype: float32
+                inverse: false
+              Transform:CropImageByMask:
+                mask: MASK
+                margin_mm:
+                - 15
+                - 50
+                - 100
+              Clip:
+                min_value: -81.0
+                max_value: 196.0
+                save_clip_min: false
+                save_clip_max: false
+                mask: None
+              Standardize:
+                lazy: false
+                mean: 77.6812973022461
+                std: 59.76630783081055
+                mask: None
+                inverse: false
+              ResampleToResolution:
+                spacing:
+                - 1.0
+                - 0.7734377384185791
+                - 0.7734377384185791
+                inverse: true
+            patch_transforms: None
+            is_input: true
+    augmentations: None
+    Patch:
+      patch_size:
+      - 112
+      - 224
+      - 288
+      overlap: None
+      mask: None
+      pad_value: 0
+      extend_slice: 0
+    subset: None
+    filter: None
+    dataset_filenames:
+    - ./Dataset/:a:mha
+    - ./Predictions/Curvas/Dataset/:i:mha
+    use_cache: false
+    batch_size: 1
+  outputs_dataset:
+    Model:
+      OutputDataset:
+        name_class: OutSameAsGroupDataset
+        before_reduction_transforms: None
+        after_reduction_transforms: None
+        final_transforms:
+          Uncertainty:Uncertainty:
+            mask: MASK
+        dataset_filename: Dataset:mha
+        group: Seg
+        same_as_group: CT:CT
+        patch_combine: Mean
+        inverse_transform: true
+        reduction: Mean
+  train_name: Curvas_1
+  manual_seed: 32
+  gpu_checkpoints: None
+  images_log: None
+  combine: Uncertainty:Concat
+  autocast: true
+  data_log: None
+  Uncertainty:Concat: {}

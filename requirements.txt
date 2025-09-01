@@ -1,0 +1,4 @@
+numpy
+konfai==1.2.8
+dynamic_network_architectures
+scipy
