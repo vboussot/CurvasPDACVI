@@ -13,7 +13,7 @@ def run():
     dataset.write("CT", "Case", load_image_file_as_image(location=INPUT_PATH / "images/thoracic-abdominal-ct"))
 
     os.system("konfai PREDICTION -y --gpu 0 --num_workers 0 --config ./resources/Prediction_TS.yml --MODEL ./resources/Model/M291.pt")
-    os.system("konfai PREDICTION -y --config ./resources/Prediction.yml --MODEL ./resources/Model/FT_0.pt:./resources/Model/FT_1.pt:./resources/Model/FT_2.pt:./resources/Model/FT_3.pt:./resources/Model/FT_4.pt --gpu 0")
+    os.system("konfai PREDICTION -y --gpu 0 --num_workers 0 --config ./resources/Prediction.yml --MODEL ./resources/Model/FT_0.pt:./resources/Model/FT_1.pt:./resources/Model/FT_2.pt:./resources/Model/FT_3.pt:./resources/Model/FT_4.pt")
 
     write_image_as_image_file(OUTPUT_PATH / "images/pdac-segmentation", SimpleITK.ReadImage("./Predictions/Curvas_1/Dataset/Case/Seg.mha"))
     write_image_as_image_file(OUTPUT_PATH / "images/pdac-confidence", SimpleITK.ReadImage("./Predictions/Curvas_1/Dataset/Case/Prob.mha"))

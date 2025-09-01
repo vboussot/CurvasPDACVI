@@ -66,7 +66,7 @@ Predictor:
       - 128
       - 256
       - 256
-      overlap: 64
+      overlap: None
       mask: None
       pad_value: 0
       extend_slice: 0
@@ -91,7 +91,7 @@ Predictor:
         dataset_filename: Dataset:mha
         group: MASK
         same_as_group: CT:MASK
-        patch_combine: None
+        patch_combine: Mean
         inverse_transform: true
         reduction: Mean
   train_name: Curvas

@@ -29,6 +29,12 @@ COPY --chown=user:user resources/Model/FT_2.pt /opt/app/resources/Model/FT_2.pt
 COPY --chown=user:user resources/Model/FT_3.pt /opt/app/resources/Model/FT_3.pt
 COPY --chown=user:user resources/Model/FT_4.pt /opt/app/resources/Model/FT_4.pt
 
-COPY --chown=user:user residual.py /usr/local/lib/python3.12/site-packages/dynamic_network_architectures/building_blocks/
+COPY --chown=user:user dynamic-network-architectures/* /opt/app/dynamic_network_architectures/
+
+WORKDIR /opt/app/dynamic_network_architectures
+RUN python -m pip install -e .
+
+
+WORKDIR /opt/app
 
 ENTRYPOINT ["python", "inference.py"]

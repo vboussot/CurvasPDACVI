@@ -29,9 +29,10 @@ class Uncertainty(Transform):
         seg = (output_segmentation.numpy() > 0).astype(np.uint8)
         mask = (mask == 1).astype(np.uint8)
 
+
         labeled, num_features = label(seg)
         if num_features == 0:
-            return torch.from_numpy(np.zeros_like(seg).astype(np.uint8))
+            return torch.from_numpy(output_segmentation)
 
         keep_components = []
         for comp in range(1, num_features + 1):

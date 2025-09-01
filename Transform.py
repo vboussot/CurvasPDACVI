@@ -45,7 +45,7 @@ class CropImageByMask(TransformInverse):
         indices = np.argwhere(mask == 1)
 
         if indices.size == 0:
-            return tensor
+            return 0, shape[0], 0, shape[1], 0, shape[2]
         
         # Bounding box min/max
         min_idx = indices.min(axis=0)
@@ -69,6 +69,7 @@ class CropImageByMask(TransformInverse):
 
     def transform_shape(self, name: str, shape: list[int], cache_attribute: Attribute) -> list[int]:
         box = self._get_box(name, shape, cache_attribute)
+
         self.state[name] = box
         cache_attribute["Shape"] = torch.tensor([1]+shape)
         spacing = cache_attribute.get_np_array("Spacing")
