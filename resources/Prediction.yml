@@ -38,6 +38,16 @@ Predictor:
                 - 0.7734377384185791
                 - 0.7734377384185791
                 inverse: true
+              Padding:
+                padding:
+                - 32
+                - 32
+                - 32
+                - 32
+                - 32
+                - 32
+                mode: constant
+                inverse: true
             patch_transforms: None
             is_input: true
     augmentations: None
@@ -46,7 +56,7 @@ Predictor:
       - 112
       - 224
       - 288
-      overlap: None
+      overlap: 32
       mask: None
       pad_value: 0
       extend_slice: 0
@@ -66,10 +76,11 @@ Predictor:
         final_transforms:
           Uncertainty:Uncertainty:
             mask: MASK
+          Transform:CropImageByMaskInverse: {}
         dataset_filename: Dataset:mha
         group: Seg
         same_as_group: CT:CT
-        patch_combine: Mean
+        patch_combine: Cosinus
         inverse_transform: true
         reduction: Mean
   train_name: Curvas_1

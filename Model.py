@@ -105,4 +105,4 @@ class ResidualEncoderUNet(torch.nn.Module):
                           nonlin_kwargs= {'inplace': True})
         
     def forward(self, input: torch.Tensor):
-        return torch.argmax(self.model(input.to(torch.float32)), dim=1).unsqueeze(1).float()
+        return self.model(input.to(torch.float32))

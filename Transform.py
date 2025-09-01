@@ -24,13 +24,12 @@ class KeepLargestComponent(Transform):
         cleaned_mask[labeled_array == largest_component] = 1
         return cleaned_mask
 
-class CropImageByMask(TransformInverse):
+class CropImageByMask(Transform):
    
     def __init__(self, mask: str, margin_mm : list[int] = [15, 50, 100]):
-        super().__init__(True)
+        super().__init__()
         self.margin_mm = margin_mm
         self.mask = mask
-        self.state = {}
 
     def _get_box(self, name: str, shape: list[int], cache_attribute: Attribute):
         mask = None
@@ -70,7 +69,7 @@ class CropImageByMask(TransformInverse):
     def transform_shape(self, name: str, shape: list[int], cache_attribute: Attribute) -> list[int]:
         box = self._get_box(name, shape, cache_attribute)
 
-        self.state[name] = box
+        cache_attribute["Box"] = torch.tensor(list(box))
         cache_attribute["Shape"] = torch.tensor([1]+shape)
         spacing = cache_attribute.get_np_array("Spacing")
         origin = cache_attribute.get_np_array("Origin")
@@ -83,15 +82,19 @@ class CropImageByMask(TransformInverse):
         return [box[1]-box[0], box[3]-box[2], box[5]-box[4]]
     
     def __call__(self, name: str, tensor: torch.Tensor, cache_attribute: Attribute) -> torch.Tensor:
-        box = self.state[name]
+        box = cache_attribute.get_np_array("Box").astype(np.int64)
         return tensor[:,box[0]:box[1], box[2]:box[3], box[4]:box[5]]
-    
-    def inverse(self, name: str, tensor: torch.Tensor, cache_attribute: Attribute) -> torch.Tensor:
+
+class CropImageByMaskInverse(Transform):
+
+    def __init__(self):
+        super().__init__()
+
+    def __call__(self, name: str, tensor: torch.Tensor, cache_attribute: Attribute) -> torch.Tensor:
         initial_shape = cache_attribute.pop_np_array("Shape").astype(np.int64)
-        initial_shape[0] = 5
+        initial_shape[0] = 1
         cache_attribute.pop_np_array("Origin")
-        box = self.state[name]
-        del self.state[name]
+        box = cache_attribute.pop_np_array("Box").astype(np.int64)
         result = torch.zeros(tuple(initial_shape))
         result[:, box[0]:box[1], box[2]:box[3], box[4]:box[5]] = tensor
         return result

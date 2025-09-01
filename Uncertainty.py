@@ -25,7 +25,6 @@ class Uncertainty(Transform):
         Garde uniquement les composantes connectées de output_segmentation
         qui intersectent avec au moins un voxel == target_label dans cropped_mask.
         """
-
         seg = (output_segmentation.numpy() > 0).astype(np.uint8)
         mask = (mask == 1).astype(np.uint8)
 
@@ -53,9 +52,13 @@ class Uncertainty(Transform):
         if mask is None:
             raise NameError(f"Mask : {name}/{self.mask} not found")
         mask = mask[0]
-
+        
+        box = cache_attribute.get_np_array("Box").astype(np.int64)
+        mask = mask[box[0]:box[1], box[2]:box[3], box[4]:box[5]]
+        tensors = tensors.view(5, 3, *tensors.shape[1:])
+        tensors = torch.argmax(tensors, dim=1).to(torch.uint8)
         tensors[tensors>1] = 0
-        tensors = tensors.to(torch.uint8)
+
         for i, tensor in enumerate(tensors):
             tensors[i] = self.refine_segmentation_with_mask(tensor, mask)
         
