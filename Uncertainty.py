@@ -5,6 +5,8 @@ import torch
 import SimpleITK as sitk
 import numpy as np
 from scipy.ndimage import label
+from Transform import CropImageByMaskInverse
+import copy
 
 class Concat(Reduction):
 
@@ -19,15 +21,11 @@ class Uncertainty(Transform):
     def __init__(self, mask: str):
         super().__init__()
         self.mask = mask
+        self.cropImageByMaskInverse = CropImageByMaskInverse()
 
     def refine_segmentation_with_mask(self, output_segmentation: torch.Tensor, mask: np.ndarray):
-        """
-        Garde uniquement les composantes connectées de output_segmentation
-        qui intersectent avec au moins un voxel == target_label dans cropped_mask.
-        """
         seg = (output_segmentation.numpy() > 0).astype(np.uint8)
         mask = (mask == 1).astype(np.uint8)
-
 
         labeled, num_features = label(seg)
         if num_features == 0:
@@ -41,8 +39,7 @@ class Uncertainty(Transform):
 
         refined = np.isin(labeled, keep_components).astype(np.uint8)
         return torch.from_numpy(refined)
-
-    
+ 
     def __call__(self, name: str, tensors: torch.Tensor, cache_attribute: Attribute) -> torch.Tensor:
         mask = None
         for dataset in self.datasets:
@@ -62,10 +59,13 @@ class Uncertainty(Transform):
         for i, tensor in enumerate(tensors):
             tensors[i] = self.refine_segmentation_with_mask(tensor, mask)
         
-        probability = tensors.sum(0)/tensors.shape[0]
+        probability = (tensors.sum(0)/tensors.shape[0]).unsqueeze(0)
+        probability_cache_attribute = copy.deepcopy(cache_attribute)
+        probability = self.cropImageByMaskInverse(name, probability, probability_cache_attribute)
+
         dataset = Dataset("./Predictions/Curvas_1/Dataset", "mha")
-        dataset.write("Prob", name, data_to_image(probability.unsqueeze(0).numpy(), cache_attribute))
-        list_segmentation_sitk = [data_to_image(tensor.unsqueeze(0).numpy(), cache_attribute) for tensor in tensors]
+        dataset.write("Prob", name, data_to_image(probability.numpy(), probability_cache_attribute))
+        list_segmentation_sitk = [data_to_image(tensor.unsqueeze(0).numpy(), probability_cache_attribute) for tensor in tensors]
 
         foregroundValue = 1
         threshold = 0.5

@@ -77,6 +77,9 @@ Predictor:
           Uncertainty:Uncertainty:
             mask: MASK
           Transform:CropImageByMaskInverse: {}
+          TensorCast:
+            dtype: uint8
+            inverse: false
         dataset_filename: Dataset:mha
         group: Seg
         same_as_group: CT:CT
