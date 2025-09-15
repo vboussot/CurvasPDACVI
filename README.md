@@ -91,12 +91,14 @@ konfai PREDICTION -y \
   --MODEL ./resources/model/FT_0.pt:./resources/model/FT_1.pt:./resources/model/FT_2.pt:./resources/model/FT_3.pt:./resources/model/FT_4.pt
 ```
 
-This will generate, for each case:
+The predictions for each case are stored in:
 
 ```
-./Predictions/Curvas/Dataset/Case_xxx/Seg.mha   # final Bayesian segmentation (STAPLE aggregation)
-./Predictions/Curvas/Dataset/Case_xxx/Prob.mha  # voxel-wise uncertainty map (values in [0, 1])
+./Predictions/Curvas/Dataset/Case_xxx/
+├── Seg.mha   # Final Bayesian segmentation (after STAPLE aggregation)
+└── Prob.mha  # Voxel-wise uncertainty map (values in [0, 1])
 ```
+
 
 ## 📚 References
 
