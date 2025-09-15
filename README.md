@@ -13,8 +13,8 @@ Our method ranked **3rd overall** in the CURVAS2025 Challenge 🏅
 
 | Rank | Team / Algorithm             | DSC (↑) | thresh-DSC (↑) | ECE (↓) | CRPS (↓) |
 |------|------------------------------|---------|----------------|---------|----------|
-| 🥇 1st | Tryzis / TwinTrack   | 0.5576  | 0.5693         | 0.0296  | **5924** |
-| 🥈 2nd | SHUGOSHA / zxzxzx   | 0.5894  | 0.5801         | 0.0305  | 10792    |
+| 🥇 1st | Tryzis    | 0.5576  | 0.5693         | 0.0296  | **5924** |
+| 🥈 2nd | SHUGOSHA    | 0.5894  | 0.5801         | 0.0305  | 10792    |
 | 🥉 3rd | **ours** | **0.7104** | **0.6401** | **0.0257** | 7320     |
 
 ✨ Highlights of our approach:
