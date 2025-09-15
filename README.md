@@ -23,7 +23,7 @@ Our method ranked **3rd overall** in the CURVAS2025 Challenge 🏅
 - 🥇 **Best Calibration (ECE)**
 - Robust and efficient Bayesian uncertainty estimation
 
-🔗 [View the full CURVASPDACVI leaderboard]([https://grand-challenge.org/challenges/curvas-2025/leaderboard/](https://curvas-pdacvi.grand-challenge.org/evaluation/testing-phase/leaderboard/))  
+🔗 [View the full CURVASPDACVI leaderboard](https://curvas-pdacvi.grand-challenge.org/evaluation/testing-phase/leaderboard/)
 
 ---
 
