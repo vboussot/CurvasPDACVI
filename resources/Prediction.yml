@@ -20,6 +20,8 @@ Predictor:
                 - 15
                 - 50
                 - 100
+              Canonical:
+                inverse: true
               Clip:
                 min_value: -81.0
                 max_value: 196.0
