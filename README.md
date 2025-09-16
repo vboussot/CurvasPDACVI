@@ -1,6 +1,6 @@
 [![Hugging Face](https://img.shields.io/badge/🤗%20Hugging%20Face-CURVASPDACVI-blue)](https://huggingface.co/VBoussot/CurvasPDACVI)
 
-# CURVAS2025: Bayesian Modeling of Inter-Annotator Variability in UNet-Based PDAC Tumor Segmentation (3rd place 🏅)
+# CURVAS2025: Bayesian Modeling of Inter-Annotator Variability in UNet-Based PDAC Tumor Segmentation (3rd place 🥈)
 
 This repository provides the code, configurations, and models used for our submission to the **CURVAS 2025 Challenge**, focused on **uncertainty-aware segmentation** of **Pancreatic Ductal Adenocarcinoma (PDAC)** from CT scans.  
 Our approach extends **pre-trained nnU-Net models** with **Adaptable Bayesian Neural Network (ABNN)** layers to model **inter-annotator variability** and generate **voxel-wise uncertainty maps**.
@@ -13,9 +13,9 @@ Our method ranked **3rd overall** in the CURVAS2025 Challenge 🏅
 
 | Rank | Team / Algorithm             | DSC (↑) | thresh-DSC (↑) | ECE (↓) | CRPS (↓) |
 |------|------------------------------|---------|----------------|---------|----------|
-| 🥇 1st | Tryzis    | 0.5576  | 0.5693         | 0.0296  | **5924** |
-| 🥈 2nd | SHUGOSHA    | 0.5894  | 0.5801         | 0.0305  | 10792    |
-| 🥉 3rd | **ours** | **0.7104** | **0.6401** | **0.0257** | 7320     |
+| 🏅 1st | Tryzis    | 0.5576  | 0.5693         | 0.0296  | **5924** |
+| 🥇 2nd | SHUGOSHA    | 0.5894  | 0.5801         | 0.0305  | 10792    |
+| 🥈 3rd | **ours** | **0.7104** | **0.6401** | **0.0257** | 7320     |
 
 ✨ Highlights of our approach:
 - 🥇 **Best Dice Score (DSC)**
