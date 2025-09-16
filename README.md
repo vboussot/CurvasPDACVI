@@ -1,4 +1,4 @@
-[![Hugging Face](https://img.shields.io/badge/🤗%20Hugging%20Face-CURVASPDACVI-blue)](https://huggingface.co/VBoussot/CurvasPDACVI)
+[![Grand Challenge](https://img.shields.io/badge/Grand%20Challenge-CURVAS_PDACVI-blue)](https://curvas-pdacvi.grand-challenge.org/) [![Hugging Face](https://img.shields.io/badge/🤗%20Hugging%20Face-CURVASPDACVI-orange)](https://huggingface.co/VBoussot/CurvasPDACVI)
 
 # CURVAS2025: Bayesian Modeling of Inter-Annotator Variability in UNet-Based PDAC Tumor Segmentation (3rd place 🥈)
 
