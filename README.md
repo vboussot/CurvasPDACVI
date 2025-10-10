@@ -1,6 +1,6 @@
 [![Grand Challenge](https://img.shields.io/badge/Grand%20Challenge-CURVAS_PDACVI-blue)](https://curvas-pdacvi.grand-challenge.org/) [![Hugging Face](https://img.shields.io/badge/🤗%20Hugging%20Face-CURVASPDACVI-orange)](https://huggingface.co/VBoussot/CurvasPDACVI)
 
-# CURVAS2025: Bayesian Modeling of Inter-Annotator Variability in UNet-Based PDAC Tumor Segmentation (3rd place 🥈)
+# CURVAS2025: Bayesian Modeling of Inter-Annotator Variability in UNet-Based PDAC Tumor Segmentation (3rd place 🥉)
 
 This repository provides the code, configurations, and models used for our submission to the **CURVAS 2025 Challenge**, focused on **uncertainty-aware segmentation** of **Pancreatic Ductal Adenocarcinoma (PDAC)** from CT scans.  
 Our approach extends **pre-trained nnU-Net models** with **Adaptable Bayesian Neural Network (ABNN)** layers to model **inter-annotator variability** and generate **voxel-wise uncertainty maps**.
