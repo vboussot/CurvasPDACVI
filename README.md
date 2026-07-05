@@ -29,7 +29,19 @@ Our method ranked **3rd overall** in the CURVAS2025 Challenge 🏅
 
 ## 🚀 Inference Instructions
 
-### 1. Download the models
+The pipeline runs on [KonfAI](https://github.com/vboussot/KonfAI); the two models are
+[TorchScript](https://pytorch.org/docs/stable/jit.html) checkpoints exported from KonfAI-trained networks.
+
+### 1. Install KonfAI
+
+```bash
+pip install konfai[itk]==1.5.9
+```
+
+Keep `Model.py`, `Transform.py` and `Uncertainty.py` in the working directory: the prediction configs
+reference them through the `Model:`, `Transform:` and `Uncertainty:` classpaths.
+
+### 2. Download the models
 
 Automatically download all required models from Hugging Face:
 
@@ -40,7 +52,7 @@ python download.py
 This will create the following directory and files:
 
 ```
-./resources/model/
+./resources/Model/
 ├── FT_0.pt
 ├── FT_1.pt
 ├── FT_2.pt
@@ -56,29 +68,28 @@ This will create the following directory and files:
 
 ---
 
-### 2. Prepare the dataset
+### 3. Prepare the dataset
 
-Expected structure:
+Expected structure (one `CT.mha` per case):
 
 ```
 ./Dataset/
 ├── Case_001/
-│   ├── IMAGE.mha   # input CT volume
+│   └── CT.mha   # input CT volume
 ├── Case_002/
-│   ├── IMAGE.mha
+│   └── CT.mha
 └── ...
 ```
 
-### 3. Run inference with uncertainty estimation
+### 4. Run inference with uncertainty estimation
 
 Run pancreas localization (ROI extraction) with the auxiliary model:
 
 ```bash
 konfai PREDICTION -y \
   --gpu 0 \
-  --num_workers 0 \
   --config ./resources/Prediction_TS.yml \
-  --MODEL ./resources/model/M291.pt
+  --models ./resources/Model/M291.pt
 ```
 
 Then run Bayesian inference with the fine-tuned models (ensemble of 5 checkpoints):
@@ -86,9 +97,8 @@ Then run Bayesian inference with the fine-tuned models (ensemble of 5 checkpoint
 ```bash
 konfai PREDICTION -y \
   --gpu 0 \
-  --num_workers 0 \
   --config ./resources/Prediction.yml \
-  --MODEL ./resources/model/FT_0.pt:./resources/model/FT_1.pt:./resources/model/FT_2.pt:./resources/model/FT_3.pt:./resources/model/FT_4.pt
+  --models ./resources/Model/FT_0.pt ./resources/Model/FT_1.pt ./resources/Model/FT_2.pt ./resources/Model/FT_3.pt ./resources/Model/FT_4.pt
 ```
 
 The predictions for each case are stored in:
